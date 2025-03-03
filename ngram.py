@@ -48,15 +48,6 @@ from pygments.lexers.jvm import JavaLexer
 from pygments.lexers import get_lexer_by_name
 from pygments.token import Token
 
-    #Example
-code = """public static void main() { System.out.println("bau");}"""
-
-lexer = JavaLexer()
-
-tokens = [t[1] for t in lexer.get_tokens(code)]
-print(tokens)
-print(len(tokens))
-
 #data = pd.read_csv("ghsajp1.csv", usecols=['Method Java'])
 #data = pd.read_csv("test.csv", usecols=['Method Java'])
 with open(corpus, 'r') as file:
@@ -180,14 +171,15 @@ def nGram(corpus, n):
 
 #model
 
-vocab = []
+vocab = set([])
 for line in data['Method Java No Comments']:
   words = line.split(' ')
   words = list(filter(None, words))
   for word in words:
     if word not in vocab:
-      vocab.append(word)
+      vocab.add(word)
 
+vocab = list(vocab)
 vocabLength = len(vocab)
 
 def predict(model, sequence):
@@ -278,11 +270,13 @@ minPerp = 1000000000
 minPerpIndex = 0
 for i in range(len(n)):
   print("Working on " + str(n[i]))
+  print(corpus[:-4])
   model = nGram(train, n[i])
-  model.to_pickle()
+  model.to_pickle(corpus[:-4] + "n" + str(n[i]))
   models.append(model)
   perp = perplexity(model, n[i], eval)
   perps.append(perp)
+  print("perp")
   print(str(n[i]) + "-Gram Perplexity: " + str(perp))
   if(perp < minPerp):
     minPerp = perp
@@ -294,9 +288,13 @@ import json
 model = models[minPerpIndex]
 
 for i in range(100):
+  count = 1
+  numpy.random.seed(i)
   rand = numpy.random.randint(0, len(test))
   method = test['Method Java No Comments'].iloc[rand]
   while("<" in method[:5] or method[0] == '"' or method[0] == "'"):
+    numpy.random.seed(i + (100 * count))
+    count += 1
     rand = numpy.random.randint(0, len(test))
     method = test['Method Java No Comments'].iloc[rand]
   method = list(filter(None, method.split(' ')))
