@@ -256,6 +256,7 @@ for i in range(len(n)):
   model = nGram(train, n[i])
   model.to_pickle(corpus[:-4] + "n" + str(n[i]) + ".pkl")
   models.append(model)
+  print("Calculating Perplexity")
   perp = perplexity(model, n[i], eval)
   perps.append(perp)
   print(str(n[i]) + "-Gram Perplexity: " + str(perp))
@@ -264,9 +265,14 @@ for i in range(len(n)):
     minPerpIndex = i
 print("Best n: " + str(n[minPerpIndex]))
 
+
 import json
 
 model = models[minPerpIndex]
+
+print("Calculating Test Set Perplexity")
+perptest = perplexity(model, n[minPerpIndex], test)
+print("Test Perplexity: " + str(perptest))
 
 for i in range(100):
   count = 1
