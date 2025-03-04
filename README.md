@@ -38,3 +38,13 @@ This is especially useful if you run the project with a new, smaller corpus for 
 ```
 python ngrams_fast_eval.py yourtrainingset.txt
 ```
+
+To calculate the perplexity on the evaluation and test sets for a saved model, use the command:
+```
+python ngrams_load_pkl.py savedmodel.pkl
+```
+
+To do the same but only on a smaller evaluation set for faster speed, use the command:
+```
+python ngrams_load_pkl_fast_eval.py savedmodel.pkl
+```
