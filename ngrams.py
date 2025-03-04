@@ -120,7 +120,11 @@ print(train.head())
 def nGram(corpus, n):
   model = pd.DataFrame(columns=['gram', 'correct'])
   corpus = corpus['Method Java No Comments']
+  count = 0
   for line in corpus:
+    count += 1
+    if(count % 1000 == 0):
+      print(str(count))
     words = line.split(' ')
     words = list(filter(None, words))
     for i in range(len(words) - n + 1):
@@ -246,7 +250,7 @@ def iterative_predict(model, seed, functionLength):
       predicting = False
   return prediction
 
-n = [7, 5, 3]
+n = [2, 3, 5]
 models = []
 perps = []
 minPerp = 1000000000
