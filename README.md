@@ -24,7 +24,17 @@ pip install -r requirements.txt
 
 ## Running the Project
 
-To run the project using a testing set provided by our professor, use the command:
+To run the project using the training set provided by our professor, use the command:
 ```
-python ngram.py M_teacher.txt
+python ngrams.py M_teacher.txt
+```
+
+To run the project while only calculating perplexity on a smaller evaluation set for faster speed use the command:
+```
+python ngrams_fast_eval.py M_teacher.txt
+```
+
+This is especially useful if you run the project with a new, smaller corpus for testing purposes:
+```
+python ngrams_fast_eval.py yourtrainingset.txt
 ```
