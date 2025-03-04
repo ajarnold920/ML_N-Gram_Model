@@ -275,13 +275,13 @@ import json
 model = models[minPerpIndex]
 
 print("Calculating Test Set Perplexity")
-perptest = perplexity(model, n[minPerpIndex], test)
+perptest = perplexity(model, n[minPerpIndex], test[:100])
 print("Test Perplexity: " + str(perptest))
 
 for i in range(100):
   count = 1
   numpy.random.seed(i)
-  rand = numpy.random.randint(0, len(test[:100]))
+  rand = numpy.random.randint(0, len(test))
   method = test['Method Java No Comments'].iloc[rand]
   while("<" in method[:5] or method[0] == '"' or method[0] == "'"):
     numpy.random.seed(i + (100 * count))
